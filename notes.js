@@ -1,33 +1,33 @@
-console.log('Starting notes.js');
+//console.log('Starting notes.js');
 
 const fs = require('fs');
 
-var fetchNotes = () => {
+const fetchNotes = () => {
   try {
-    var notesString = fs.readFileSync('notes-data.json');
+    const notesString = fs.readFileSync('notes-data.json');
     return JSON.parse(notesString);
   } catch (e) {
     return [];
   }
 };
 
-var saveNotes = (notes) => {
+const saveNotes = (notes) => {
   fs.writeFileSync('notes-data.json', JSON.stringify(notes));
 };
 
-var findNoteIndex = (notes, title) => {
+const findNoteIndex = (notes, title) => {
   return notes.findIndex((note) => note.title === title);
 }
 
-var addNote = (title, body) => {
+const addNote = (title, body) => {
   console.log('Adding note', title, body);
-  var notes = fetchNotes();
-  var note = {
+  const notes = fetchNotes();
+  const note = {
     title,
     body
   };
 
-  var index = findNoteIndex(notes, title);
+  const index = findNoteIndex(notes, title);
 
   if (index < 0) {
     notes.push(note);
@@ -37,62 +37,61 @@ var addNote = (title, body) => {
 };
 
 
-var updateNote = (title, body) => {
+const updateNote = (title, body) => {
   console.log('Updating note', title, body);
-  var notes = fetchNotes();
-  var note = {
-    title,
-    body
-  };
+  const notes = fetchNotes();
 
-  var index = findNoteIndex(notes, title);
+  const index = findNoteIndex(notes, title);
 
   if (index > 0) {
     notes[index].body = body;
     saveNotes(notes);
-    return note;
+    return notes[index];
   }
 };
 
 
-
-var getAll = () => {
+const getAll = () => {
   console.log('Getting all notes');
 
-  var notes = fetchNotes();
+  const notes = fetchNotes();
 
   return notes;
 };
 
-var getNote = (title) => {
+const getNote = (title) => {
   console.log('Getting note', title);
-  var notes = fetchNotes();
-  var note = {
+  const notes = fetchNotes();
+  const note = {
     title
   };
 
-  var index = findNoteIndex(notes, title);
+  const index = findNoteIndex(notes, title);
 
   return index > 0 ? notes[index] : undefined;
 };
 
-var removeNote = (title) => {
+const removeNote = (title) => {
   console.log('Removing note', title);
 
-  var notes = fetchNotes();
-  var note = {
-    title
-  };
+  const notes = fetchNotes();
 
-  var index = findNoteIndex(notes, title);
+  const index = findNoteIndex(notes, title);
 
   if (index > 0) {
     notes.splice(index);
     saveNotes(notes);
   }
 
+  return index > 0;
+
+
+  //var filteredNotes= notes.filter((note) => note.title === title);
+  //saveNotes(filteredNotes);
+  //return filteredNotes.length !== notes.length;
 };
 
+const logNote = note => JSON.stringify(note);
 
 
 module.exports = {
@@ -100,5 +99,6 @@ module.exports = {
   getAll,
   getNote,
   removeNote,
-  updateNote
+  updateNote,
+  logNote
 };
