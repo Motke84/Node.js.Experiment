@@ -2,21 +2,29 @@ console.log('Starting app.js');
 
 const fs = require('fs');
 const _ = require('lodash');
-const yargs = require('yargs');
 
+const argumentor = require('./argumentor.js');
 const notes = require('./notes.js');
 
-const argv = yargs.argv;
-var command = argv._[0];
-console.log('Command: ', command);
-console.log('Yargs', argv);
 
+
+
+const argv = argumentor.argv;
+const command = argumentor.command;
+
+
+
+//console.log('Command: ', command);
+//console.log('Yargs', argv);
+
+//debugger;
 
 switch (command) {
   case 'add':
     {
       const note = notes.addNote(argv.title, argv.body);
-      console.log(note ? `Added note ${JSON.stringify(note)}` : `Note already exists ${argv.title}`);
+      const msg = note ? `Adding new note ${notes.logNote(note)}` : `already exist ${argv.title}`;
+      console.log(msg);
       break;
     }
   case 'list':
@@ -28,13 +36,14 @@ switch (command) {
   case 'read':
     {
       const note = notes.getNote(argv.title);
-      console.log(note ? `Got note ${JSON.stringify(note)}` : `Note not found ${argv.title}`);
+      const msg = note ? `Got note ${notes.logNote(note)}` : `Note not found ${argv.title}`;
+      console.log(msg);
       break;
     }
   case 'remove':
     {
-      notes.removeNote(argv.title);
-      console.log('Note removed', argv.title);
+      const result = notes.removeNote(argv.title);
+      console.log(result ? 'Note removed' : 'Note was not removed');
       break;
     }
   case 'update':
