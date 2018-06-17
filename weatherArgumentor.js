@@ -10,7 +10,7 @@ const addressOptions = {
 
 
 const argv = yargs
-    .options('add', 'Add a new note', {
+    .options({
         a: addressOptions
     })
     .help()

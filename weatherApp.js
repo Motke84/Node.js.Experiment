@@ -4,8 +4,10 @@ const argumentor = require('./weatherArgumentor');
 
 var args = argumentor.argv;
 
+const address = encodeURIComponent(args.address)
+
 request({
-  url: 'https://maps.googleapis.com/maps/api/geocode/json?address=natan%2012%20ramat-gan&key=AIzaSyBj4wjXiR-ikJos173OXGnBQKzEsdzOxcU',
+  url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyBj4wjXiR-ikJos173OXGnBQKzEsdzOxcU`,
   json: true
 }, (error, response, body) => {
   const first = body.results[0];
