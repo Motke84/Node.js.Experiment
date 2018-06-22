@@ -5,9 +5,9 @@ const axios = require('axios');
 const goeocodeAddress = (address, callback) => {
 
     const formatedAddress = encodeURIComponent(address);
-
+    const googleapisKey = process.env.GOOGLEAPIS_KEY;
     request({
-        url: `https://maps.googleapis.com/maps/api/geocode/json?address=${formatedAddress}&key=AIzaSyBj4wjXiR-ikJos173OXGnBQKzEsdzOxcU`,
+        url: `https://maps.googleapis.com/maps/api/geocode/json?address=${formatedAddress}&key=${googleapisKey}`,
         json: true
     }, (error, response, body) => {
 
@@ -38,9 +38,11 @@ const goeocodeAddress = (address, callback) => {
 const goeocodeAddressAsync = (address) => {
 
     const formatedAddress = encodeURIComponent(address);
+    const googleapisKey = process.env.GOOGLEAPIS_KEY;
+
     return new Promise((resolve, reject) => {
         request({
-            url: `https://maps.googleapis.com/maps/api/geocode/json?address=${formatedAddress}&key=AIzaSyBj4wjXiR-ikJos173OXGnBQKzEsdzOxcU`,
+            url: `https://maps.googleapis.com/maps/api/geocode/json?address=${formatedAddress}&key=${googleapisKey}`,
             json: true
         }, (error, response, body) => {
 

@@ -1,8 +1,9 @@
+require('dotenv').config()
 const argumentor = require('./weatherArgumentor');
 const goeocode = require('./goeocode/goeocode');
 const forecast = require('./forecast/forecast');
 const weatherApi = require('./weatherApi/weatherApi');
-const ipApi = require('./ipApi/ipApi');
+
 
 
 var args = argumentor.argv;
