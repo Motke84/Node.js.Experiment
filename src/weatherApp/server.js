@@ -12,7 +12,7 @@ hbs.registerPartials(__dirname + '/views/partials');
 hbs.registerHelper('getCurrentYear', () => {
     return new Date().getFullYear();
   });
-
+   
 app.use(express.static(__dirname + '/public'));
 
 
