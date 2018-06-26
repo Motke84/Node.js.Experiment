@@ -6,7 +6,7 @@ const weatherApi = require('./weatherApi/weatherApi');
 const app = express();
 const port = process.env.PORT || 3000;
 app.set('views', __dirname+'/views');
-
+ 
 app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials');
 hbs.registerHelper('getCurrentYear', () => {
