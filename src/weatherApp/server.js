@@ -4,15 +4,38 @@ const hbs = require('hbs');
 const weatherApi = require('./weatherApi/weatherApi');
 
 const app = express();
-const port = process.env. PORT || 3000;
+const port = process.env.PORT || 3000;
+app.set('views', __dirname+'/views');
 
 app.set('view engine', 'hbs');
+hbs.registerPartials(__dirname + '/views/partials');
+hbs.registerHelper('getCurrentYear', () => {
+    return new Date().getFullYear();
+  });
+
 app.use(express.static(__dirname + '/public'));
+
+
+
+
+
+
+app.get('/', (req, res) => {
+    res.render('home.hbs', {
+        pageTitle: 'Home Page',
+        welcomeMessage: 'Welcome to my website'
+    });
+});
+
 
 
 app.get('/getWeather', (req, res) => {
 
-    weatherApi.getWeather("Natan 12 Ramat-Gan").payload
+    var address = req.query.address;
+    //  var address = 'Natan 12 Ramat-Gan';
+    console.log(address);
+
+    weatherApi.getWeather(address).payload
         .then(data => {
             console.log("weather result: ", data);
             res.send({

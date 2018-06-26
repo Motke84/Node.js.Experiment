@@ -3,7 +3,7 @@ const axios = require('axios');
 
 
 const getWeather = (address) => {
-
+   // const formatedAddress =address;
     const formatedAddress = encodeURIComponent(address);
     const googleapisKey = process.env.GOOGLEAPIS_KEY;
     let addressFromGoogle;
