@@ -9,9 +9,17 @@ const weatherApi = require('./weatherApi/weatherApi');
 var args = argumentor.argv;
 
 if (args && args.address)
-  weatherApi.getWeather(args.address);
+  weatherApi.getWeather(args.address).payload
+    .then(data => {
+      console.log("weather result: ", data);
+    });
 else
-  weatherApi.getWethersByIp();
+  weatherApi.getWethersByIp().payload
+    .then(data => {
+      console.log("weather result: ", data);
+    });;
+
+
 
 
 /*

@@ -6,41 +6,60 @@ const getWeather = (address) => {
 
     const formatedAddress = encodeURIComponent(address);
     const googleapisKey = process.env.GOOGLEAPIS_KEY;
-
+    let addressFromGoogle;
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${formatedAddress}&key=${googleapisKey}`;
 
-    axios.get(url).then((response) => {
+    const result = axios.get(url).then((response) => {
         if (response.data.status === 'ZERO_RESULTS') {
             throw new Error('Unable to find that address.');
         }
         const darkskyKey = process.env.DARKSKY_KEY;
 
-        var lat = response.data.results[0].geometry.location.lat;
-        var lng = response.data.results[0].geometry.location.lng;
-        var weatherUrl = `https://api.darksky.net/forecast/${darkskyKey}/${lat},${lng}?units=si`;
-        console.log(response.data.results[0].formatted_address);
+        const lat = response.data.results[0].geometry.location.lat;
+        const lng = response.data.results[0].geometry.location.lng;
+        const weatherUrl = `https://api.darksky.net/forecast/${darkskyKey}/${lat},${lng}?units=si`;
+        addressFromGoogle = response.data.results[0].formatted_address;
+        // console.log(address);
         return axios.get(weatherUrl);
     }).then((response) => {
-        var temperature = response.data.currently.temperature;
-        var apparentTemperature = response.data.currently.apparentTemperature;
-        console.log(`It's currently ${temperature}. It feels like ${apparentTemperature}.`);
+        const temperature = response.data.currently.temperature;
+        const apparentTemperature = response.data.currently.apparentTemperature;
+        // console.log(`It's currently ${temperature}. It feels like ${apparentTemperature}.`);
+        return {
+            address: addressFromGoogle,
+            weather: `It's,currently ${temperature}. It feels like ${apparentTemperature}.`
+        };
+
     }).catch((e) => {
         if (e.code === 'ENOTFOUND') {
             console.log('Unable to connect to API servers.');
         } else {
             console.log(e.message);
         }
+
+        return  {
+            error: e
+        };
     });
+
+    return {
+        type: getWeather, 
+        payload: result
+    };
 };
+
 
 
 const getWethersByIp = () => {
     const ipUrl = `https://api.ipify.org/?format=json`
 
-    axios.get(ipUrl).then((response) => {
+    const result = axios.get(ipUrl).then((response) => {
 
         const ipstackKey = process.env.IPSTACK_KEY;
+        console.log(ipstackKey);
 
+
+        let addressFromGoogle;
         const url = `http://api.ipstack.com/${response.data.ip}?access_key=${ipstackKey}`;
 
         return axios.get(url).then((response) => {
@@ -60,24 +79,45 @@ const getWethersByIp = () => {
                 const lng = response.data.results[0].geometry.location.lng;
 
                 const weatherUrl = `https://api.darksky.net/forecast/${darkskyKey}/${lat},${lng}?units=si`;
-                console.log(response.data.results[0].formatted_address);
+                addressFromGoogle = response.data.results[0].formatted_address;
+                //  console.log(address);
                 return axios.get(weatherUrl);
             }).then((response) => {
                 const temperature = response.data.currently.temperature;
                 const apparentTemperature = response.data.currently.apparentTemperature;
-                console.log(`It's currently ${temperature}. It feels like ${apparentTemperature}.`);
+                // console.log(`It's currently ${temperature}. It feels like ${apparentTemperature}.`);
+
+                const res = {
+                    address: addressFromGoogle,
+                    weather: `It's,currently ${temperature}. It feels like ${apparentTemperature}.`
+                };
+                console.log(res);
+
+                return {
+                    address: addressFromGoogle,
+                    weather: `It's,currently ${temperature}. It feels like ${apparentTemperature}.`
+                };
             }).catch((e) => {
                 if (e.code === 'ENOTFOUND') {
                     console.log('Unable to connect to API servers.');
                 } else {
                     console.log(e.message);
                 }
+
+                return  {
+                    error: e
+                };
             });
         });
     });
+
+    return {
+        type: getWethersByIp, 
+        payload: result
+    };
 }
 
 module.exports = {
     getWeather,
-    getWethersByIp
+    getWethersByIp,
 }
