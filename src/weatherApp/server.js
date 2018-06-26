@@ -5,14 +5,14 @@ const weatherApi = require('./weatherApi/weatherApi');
 
 const app = express();
 const port = process.env.PORT || 3000;
-app.set('views', __dirname+'/views');
- 
+app.set('views', __dirname + '/views');
+
 app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials');
 hbs.registerHelper('getCurrentYear', () => {
     return new Date().getFullYear();
-  });
-   
+});
+
 app.use(express.static(__dirname + '/public'));
 
 
@@ -32,16 +32,22 @@ app.get('/', (req, res) => {
 app.get('/getWeather', (req, res) => {
 
     var address = req.query.address;
-    //  var address = 'Natan 12 Ramat-Gan';
-    console.log(address);
 
-    weatherApi.getWeather(address).payload
-        .then(data => {
-            console.log("weather result: ", data);
-            res.send({
-                result: data
-            });
-        });
+    address ?
+        weatherApi.getWeather(address).payload
+            .then(data => {
+                console.log("weather result: ", data);
+                res.send({
+                    result: data
+                });
+            }) :
+        weatherApi.getWethersByIp().payload
+            .then(data => {
+                console.log("weather result: ", data);
+                res.send({
+                    result: data
+                });
+            })
 });
 
 app.get('/about', (req, res) => {
