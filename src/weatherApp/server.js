@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express');
 const hbs = require('hbs');
 const weatherApi = require('./weatherApi/weatherApi');
-
+const requestIp = require('request-ip');
 const app = express();
 const port = process.env.PORT || 3000;
 app.set('views', __dirname + '/views');
@@ -17,8 +17,7 @@ app.use(express.static(__dirname + '/public'));
 
 
 
-
-
+app.use(requestIp.mw({ attributeName : 'userIp' }))
 
 app.get('/', (req, res) => {
     res.render('home.hbs', {
@@ -31,6 +30,8 @@ app.get('/', (req, res) => {
 
 app.get('/getWeather', (req, res) => {
 
+    var ip =  req.userIp;
+
     var address = req.query.address;
 
     address ?
@@ -41,7 +42,7 @@ app.get('/getWeather', (req, res) => {
                     result: data
                 });
             }) :
-        weatherApi.getWethersByIp().payload
+        weatherApi.getWethersByIp(ip).payload
             .then(data => {
                 console.log("weather result: ", data);
                 res.send({
