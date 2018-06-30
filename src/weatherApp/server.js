@@ -21,7 +21,7 @@ app.use(requestIp.mw({ attributeName: 'userIp' }))
 
 app.get('/', (req, res) => {
     res.render('home.hbs', {
-        pageTitle: 'Home Page',
+        pageTitle: 'Weather API',
         welcomeMessage: 'Welcome to weather API site',
         showWeatherLinks: true
     });
@@ -40,7 +40,7 @@ app.get('/getWeatherWidget', (req, res) => {
 
 app.get('/about', (req, res) => {
     res.render('about.hbs', {
-        pageTitle: 'About Page',
+        pageTitle: 'Weather API',
         currentYear: new Date().getFullYear()
     });
 });
@@ -76,6 +76,7 @@ const sendWeatherData = (data, res) => {
 
 const renderWeatherData = (data, res) => {
     res.render('weather.hbs', {
+        pageTitle: 'Weather API',
         Address: data.address,
         Forecast: data.weather
     });
