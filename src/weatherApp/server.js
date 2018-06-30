@@ -22,7 +22,8 @@ app.use(requestIp.mw({ attributeName: 'userIp' }))
 app.get('/', (req, res) => {
     res.render('home.hbs', {
         pageTitle: 'Home Page',
-        welcomeMessage: 'Welcome to my website'
+        welcomeMessage: 'Welcome to weather API site',
+        showWeatherLinks: true
     });
 });
 
