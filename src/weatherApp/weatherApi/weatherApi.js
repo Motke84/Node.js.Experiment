@@ -27,7 +27,7 @@ const getWeather = (address) => {
         // console.log(`It's currently ${temperature}. It feels like ${apparentTemperature}.`);
         return {
             address: addressFromGoogle,
-            weather: `It's,currently ${temperature}. It feels like ${apparentTemperature}.`
+            weather: `It's,currently ${temperature}°. It feels like ${apparentTemperature}°.`
         };
 
     }).catch((e) => {
@@ -111,14 +111,11 @@ const getWeatherByIpInner = (ipAddress) => {
 
             const res = {
                 address: addressFromGoogle,
-                weather: `It's,currently ${temperature}. It feels like ${apparentTemperature}.`
+                weather: `It's,currently ${temperature}°. It feels like ${apparentTemperature}°.`
             };
             console.log(res);
 
-            return {
-                address: addressFromGoogle,
-                weather: `It's,currently ${temperature}. It feels like ${apparentTemperature}.`
-            };
+            return res;
         });
     });
 }

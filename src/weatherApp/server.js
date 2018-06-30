@@ -17,7 +17,7 @@ app.use(express.static(__dirname + '/public'));
 
 
 
-app.use(requestIp.mw({ attributeName : 'userIp' }))
+app.use(requestIp.mw({ attributeName: 'userIp' }))
 
 app.get('/', (req, res) => {
     res.render('home.hbs', {
@@ -29,26 +29,12 @@ app.get('/', (req, res) => {
 
 
 app.get('/getWeather', (req, res) => {
+    getWeather(req, res, sendWeatherData);
+});
 
-    var ip =  req.userIp;
 
-    var address = req.query.address;
-
-    address ?
-        weatherApi.getWeather(address).payload
-            .then(data => {
-                console.log("weather result: ", data);
-                res.send({
-                    result: data
-                });
-            }) :
-        weatherApi.getWethersByIp(ip).payload
-            .then(data => {
-                console.log("weather result: ", data);
-                res.send({
-                    result: data
-                });
-            })
+app.get('/getWeatherWidget', (req, res) => {
+    getWeather(req, res, renderWeatherData);
 });
 
 app.get('/about', (req, res) => {
@@ -63,4 +49,34 @@ app.listen(port, () => {
 });
 
 
+
+const getWeather = (req, res, callback) => {
+    const ip = req.userIp;
+    const address = req.query.address;
+    address ?
+        weatherApi.getWeather(address).payload
+            .then(data => {
+                callback(data, res);
+            }) :
+        weatherApi.getWethersByIp(ip).payload
+            .then(data => {
+                callback(data, res);
+            });
+};
+
+
+
+const sendWeatherData = (data, res) => {
+    console.log("weather result: ", data);
+    res.send({
+        result: data
+    });
+};
+
+const renderWeatherData = (data, res) => {
+    res.render('weather.hbs', {
+        Address: data.address,
+        Forecast: data.weather
+    });
+};
 
