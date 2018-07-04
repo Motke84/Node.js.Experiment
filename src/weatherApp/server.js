@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 const express = require('express');
 const hbs = require('hbs');
 const weatherApi = require('./weatherApi/weatherApi');

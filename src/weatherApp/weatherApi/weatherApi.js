@@ -4,32 +4,18 @@ var net = require('net');
 
 const getWeather = (address) => {
     // const formatedAddress =address;
-    const formatedAddress = encodeURIComponent(address);
-    const googleapisKey = process.env.GOOGLEAPIS_KEY;
+    const url = geGoogleapisUrl(address);
     let addressFromGoogle;
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${formatedAddress}&key=${googleapisKey}`;
 
     const result = axios.get(url).then((response) => {
-        if (response.data.status === 'ZERO_RESULTS') {
-            throw new Error('Unable to find that address.');
-        }
-        const darkskyKey = process.env.DARKSKY_KEY;
+       
+        const weatherUrl = getDarkskyUrl(response);
 
-        const lat = response.data.results[0].geometry.location.lat;
-        const lng = response.data.results[0].geometry.location.lng;
-        const weatherUrl = `https://api.darksky.net/forecast/${darkskyKey}/${lat},${lng}?units=si`;
         addressFromGoogle = response.data.results[0].formatted_address;
-        // console.log(address);
+
         return axios.get(weatherUrl);
     }).then((response) => {
-        const temperature = response.data.currently.temperature;
-        const apparentTemperature = response.data.currently.apparentTemperature;
-        // console.log(`It's currently ${temperature}. It feels like ${apparentTemperature}.`);
-        return {
-            address: addressFromGoogle,
-            weather: `It's,currently ${temperature}°. It feels like ${apparentTemperature}°.`
-        };
-
+        return createWeatherResponse(response, addressFromGoogle);
     }).catch((e) => {
         if (e.code === 'ENOTFOUND') {
             console.log('Unable to connect to API servers.');
@@ -79,40 +65,22 @@ const getWethersByIp = (ip) => {
 
 
 const getWeatherByIpInner = (ipAddress) => {
-    const ipstackKey = process.env.IPSTACK_KEY;
 
     let addressFromGoogle;
-    const url = `http://api.ipstack.com/${ipAddress}?access_key=${ipstackKey}`;
+
+    const url = getIpstackUrl(ipAddress);
 
     return axios.get(url).then((response) => {
-        if (response.data.status === 'ZERO_RESULTS') {
-            throw new Error('Unable to find that address.');
-        }
-        const googleapisKey = process.env.GOOGLEAPIS_KEY;
 
-        const lat = response.data.latitude;
-        const lng = response.data.longitude;
+        const googleUrl = getGoogleapisUrlByCoordinates(response);
 
-        const googleUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${googleapisKey}`
         return axios.get(googleUrl).then((response) => {
-            const darkskyKey = process.env.DARKSKY_KEY;
-
-            const lat = response.data.results[0].geometry.location.lat;
-            const lng = response.data.results[0].geometry.location.lng;
-
-            const weatherUrl = `https://api.darksky.net/forecast/${darkskyKey}/${lat},${lng}?units=si`;
+            const weatherUrl = getDarkskyUrl(response);
             addressFromGoogle = response.data.results[0].formatted_address;
-            //  console.log(address);
+
             return axios.get(weatherUrl);
         }).then((response) => {
-            const temperature = response.data.currently.temperature;
-            const apparentTemperature = response.data.currently.apparentTemperature;
-            // console.log(`It's currently ${temperature}. It feels like ${apparentTemperature}.`);
-
-            const res = {
-                address: addressFromGoogle,
-                weather: `It's,currently ${temperature}°. It feels like ${apparentTemperature}°.`
-            };
+            return createWeatherResponse(response, addressFromGoogle);
             console.log(res);
 
             return res;
@@ -125,3 +93,48 @@ module.exports = {
     getWeather,
     getWethersByIp,
 }
+
+const getGoogleapisUrlByCoordinates = (response) => {
+    const googleapisKey = process.env.GOOGLEAPIS_KEY;
+    const lat = response.data.latitude;
+    const lng = response.data.longitude;
+    const googleUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${googleapisKey}`;
+    return googleUrl;
+}
+
+const getIpstackUrl = (ipAddress) => {
+    const ipstackKey = process.env.IPSTACK_KEY;
+    const url = `http://api.ipstack.com/${ipAddress}?access_key=${ipstackKey}`;
+    return url;
+}
+
+const geGoogleapisUrl = (address) => {
+    const formatedAddress = encodeURIComponent(address);
+    const googleapisKey = process.env.GOOGLEAPIS_KEY;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${formatedAddress}&key=${googleapisKey}`;
+    return url;
+}
+
+const getDarkskyUrl = (response) => {
+
+    if (response.data.status === 'ZERO_RESULTS') {
+        throw new Error('Unable to find that address.');
+    }
+    
+    const darkskyKey = process.env.DARKSKY_KEY;
+    const lat = response.data.results[0].geometry.location.lat;
+    const lng = response.data.results[0].geometry.location.lng;
+    const weatherUrl = `https://api.darksky.net/forecast/${darkskyKey}/${lat},${lng}?units=si`;
+    return weatherUrl;
+}
+
+const createWeatherResponse = (response, addressFromGoogle) => {
+    const temperature = response.data.currently.temperature;
+    const apparentTemperature = response.data.currently.apparentTemperature;
+
+    return {
+        address: addressFromGoogle,
+        weather: `It's, currently ${temperature}°. It feels like ${apparentTemperature}°.`
+    };
+}
+
