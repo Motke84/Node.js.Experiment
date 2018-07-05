@@ -8,7 +8,11 @@ const getWeather = (address) => {
     let addressFromGoogle;
 
     const result = axios.get(url).then((response) => {
-       
+
+        if (response.data.status === 'ZERO_RESULTS') {
+            throw new Error(error_messages.ZERO_RESULTS);
+        }
+
         const weatherUrl = getDarkskyUrl(response);
 
         addressFromGoogle = response.data.results[0].formatted_address;
@@ -18,13 +22,17 @@ const getWeather = (address) => {
         return createWeatherResponse(response, addressFromGoogle);
     }).catch((e) => {
         if (e.code === 'ENOTFOUND') {
-            console.log('Unable to connect to API servers.');
+            console.log(error_messages.ENOTFOUND);
         } else {
             console.log(e.message);
         }
+        const error = {
+       //     error_code: e.code,
+            error_message: e.message
+        };
 
         return {
-            error: e
+             error
         };
     });
 
@@ -34,7 +42,10 @@ const getWeather = (address) => {
     };
 };
 
-
+const error_messages = {
+    ENOTFOUND: 'Unable to connect to API servers.',
+    ZERO_RESULTS: 'Unable to find that address.'
+}
 
 const getWethersByIp = (ip) => {
 
@@ -92,6 +103,7 @@ const getWeatherByIpInner = (ipAddress) => {
 module.exports = {
     getWeather,
     getWethersByIp,
+    error_messages
 }
 
 const getGoogleapisUrlByCoordinates = (response) => {
@@ -117,10 +129,8 @@ const geGoogleapisUrl = (address) => {
 
 const getDarkskyUrl = (response) => {
 
-    if (response.data.status === 'ZERO_RESULTS') {
-        throw new Error('Unable to find that address.');
-    }
-    
+
+
     const darkskyKey = process.env.DARKSKY_KEY;
     const lat = response.data.results[0].geometry.location.lat;
     const lng = response.data.results[0].geometry.location.lng;
