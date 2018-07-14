@@ -2,12 +2,13 @@
   "name": "notes-node",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/weatherApp/server.js"
+    "test": "mocha **/tests/*.test.js",
+    "start": "node ./src/weatherApp/server.js",
+    "test-watch": "nodemon --exec \"npm test\"",
+    "start-watch": "nodemon -e js,hbm --exec \"npm start\""
   },
-  "author": "Andrew Mead",
+  "author": "Moti Matatyahu",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
@@ -18,5 +19,10 @@
     "request": "^2.87.0",
     "request-ip": "^2.0.2",
     "yargs": "^4.7.1"
+  },
+  "devDependencies": {
+    "expect": "^23.3.0",
+    "mocha": "^5.2.0",
+    "supertest": "^3.1.0"
   }
 }
