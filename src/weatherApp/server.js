@@ -45,6 +45,12 @@ app.get('/about', (req, res) => {
     });
 });
 
+app.get('/PageNotFound', (req, res) => {
+    res.status(404).send({
+      error: 'Page not found.',   
+    });
+  });
+
 app.listen(port, () => {
     console.log('Server is up on port: ' + port);
 });
@@ -81,4 +87,8 @@ const renderWeatherData = (data, res) => {
         Forecast: data.weather
     });
 };
+
+module.exports = {
+    app
+}
 
