@@ -5,7 +5,7 @@ const forecast = require('./forecast/forecast');
 const weatherApi = require('./weatherApi/weatherApi');
 
 
-
+    
 var args = argumentor.argv;
 
 if (args && args.address)
