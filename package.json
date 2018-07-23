@@ -23,6 +23,7 @@
   "devDependencies": {
     "expect": "^23.3.0",
     "mocha": "^5.2.0",
+    "rewire": "^4.0.1",
     "supertest": "^3.1.0"
   }
 }
