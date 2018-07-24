@@ -39,10 +39,10 @@ jobs:
       # run tests!
       - run: yarn test
       
-      -deployment:
-         Prod:
-         branch: master
-         heroku:
-            appname: moti-m-weather-api
+deployment:
+  Prod:
+    branch: master
+    heroku:
+      appname: moti-m-weather-api
       
 
