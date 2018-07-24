@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "mocha **/tests/*.test.js",
+    "test": "mocha **/tests/*.test.js --exit",
     "start": "node ./src/weatherApp/server.js",
     "test-watch": "nodemon --exec \"npm test\"",
     "start-watch": "nodemon -e js,hbm --exec \"npm start\""
