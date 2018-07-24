@@ -2,6 +2,13 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
+  
+deployment:
+     Prod:
+     branch: master
+     heroku:
+        appname: moti-m-weather-api
+          
 version: 2
 jobs:
   build:
@@ -36,9 +43,4 @@ jobs:
       # run tests!
       - run: yarn test
       
-      # deployment  
-        deployment:
-        staging:
-        branch: master
-        heroku:
-          appname: moti-m-weather-api
+
