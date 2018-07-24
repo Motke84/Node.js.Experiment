@@ -44,14 +44,3 @@ jobs:
           command: |
             git push https://heroku:a5810171-cad4-4e89-bdd0-b79eb8d85045@git.heroku.com/moti-m-weather-api.git master
       
-workflows:
-  version: 2
-  build-deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
