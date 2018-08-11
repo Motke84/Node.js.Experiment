@@ -3,6 +3,8 @@ const express = require('express');
 const hbs = require('hbs');
 const weatherApi = require('./weatherApi/weatherApi');
 const requestIp = require('request-ip');
+const { WeatherReport } = require('./models/weatherReport.js');
+
 var { mongoose } = require('../db/mongoose');
 
 const app = express();
@@ -28,6 +30,15 @@ app.get('/', (req, res) => {
         showWeatherLinks: true
     });
 });
+
+app.get('/reports', (req, res) => {
+    WeatherReport.find().then((reports) => {
+        res.send({ reports });
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
+
 
 
 
@@ -73,7 +84,7 @@ const getWeather = (req, res, callback, display) => {
                     })
             }).
             catch(e => {
-    
+
                 res.send({
                     result: {
                         error: e.message
@@ -90,7 +101,7 @@ const getWeather = (req, res, callback, display) => {
                     })
             }).
             catch(e => {
-               
+
                 res.send({
                     result: {
                         error: e.message
@@ -102,7 +113,7 @@ const getWeather = (req, res, callback, display) => {
 
 
 const sendWeatherData = (data, res, display) => {
-   // console.log("weather result: ", data);
+    // console.log("weather result: ", data);
     res.send({
         result: display(data)
     });

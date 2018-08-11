@@ -49,9 +49,6 @@ describe('server-test', () => {
             .toEqual(expect.stringContaining(addressToCheck));
 
           expect(res.body).toHaveProperty(['result', 'weather']);
-
-        
-
         })
         .end(done);
     }).timeout(3000);

@@ -1,6 +1,6 @@
 const axios = require('axios');
 const net = require('net');
-const {WeatherReport } = require('../models/weatherReport.js');
+const { WeatherReport } = require('../models/weatherReport.js');
 
 const getWeather = (address) => {
     // const formatedAddress =address;
@@ -12,8 +12,8 @@ const getWeather = (address) => {
         if (response.data.status === 'ZERO_RESULTS') {
             throw new Error(error_messages.ZERO_RESULTS);
         }
-     
-        
+
+
         const weatherUrl = getDarkskyUrl(response);
 
         addressFromGoogle = response.data.results[0].formatted_address;
@@ -22,7 +22,7 @@ const getWeather = (address) => {
     }).then((response) => {
         return createWeatherResponse(response, addressFromGoogle, null);
     }).catch((e) => {
-     
+
         if (e.code === 'ENOTFOUND') {
             throw new Error(error_messages.ENOTFOUND);
         } else {
@@ -83,7 +83,7 @@ const getWeatherByIpInner = (ipAddress) => {
 
             return axios.get(weatherUrl);
         }).then((response) => {
-            return createWeatherResponse(response, addressFromGoogle,ipAddress);
+            return createWeatherResponse(response, addressFromGoogle, ipAddress);
         });
     });
 }
@@ -135,7 +135,7 @@ const createWeatherResponse = (response, addressFromGoogle, ipAddress) => {
 
     var weatherReport = new WeatherReport({
         address: addressFromGoogle,
-        ip : ipAddress,
+        ip: ipAddress,
         feelsLike: apparentTemperature,
         date: new Date().getTime(),
         temperature
