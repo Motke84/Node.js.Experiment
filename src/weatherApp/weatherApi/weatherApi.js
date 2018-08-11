@@ -1,6 +1,6 @@
 const axios = require('axios');
-var net = require('net');
-
+const net = require('net');
+const {WeatherReport } = require('../models/weatherReport.js');
 
 const getWeather = (address) => {
     // const formatedAddress =address;
@@ -12,28 +12,22 @@ const getWeather = (address) => {
         if (response.data.status === 'ZERO_RESULTS') {
             throw new Error(error_messages.ZERO_RESULTS);
         }
-
+     
+        
         const weatherUrl = getDarkskyUrl(response);
 
         addressFromGoogle = response.data.results[0].formatted_address;
 
         return axios.get(weatherUrl);
     }).then((response) => {
-        return createWeatherResponse(response, addressFromGoogle);
+        return createWeatherResponse(response, addressFromGoogle, null);
     }).catch((e) => {
+     
         if (e.code === 'ENOTFOUND') {
-            console.log(error_messages.ENOTFOUND);
+            throw new Error(error_messages.ENOTFOUND);
         } else {
-            console.log(e.message);
+            throw new Error(e);
         }
-        const error = {
-       //     error_code: e.code,
-            error_message: e.message
-        };
-
-        return {
-             error
-        };
     });
 
     return {
@@ -43,6 +37,7 @@ const getWeather = (address) => {
 };
 
 const error_messages = {
+    UNKNOWN: 'Unknown Error',
     ENOTFOUND: 'Unable to connect to API servers.',
     ZERO_RESULTS: 'Unable to find that address.'
 }
@@ -57,15 +52,12 @@ const getWethersByIp = (ip) => {
             return getWeatherByIpInner(response.data.ip);
 
         }).catch((e) => {
-            if (e.code === 'ENOTFOUND') {
-                console.log('Unable to connect to API servers.');
-            } else {
-                console.log(e.message);
-            }
 
-            return {
-                error: e
-            };
+            if (e.code === 'ENOTFOUND') {
+                throw new Error(error_messages.ENOTFOUND);
+            } else {
+                throw new Error(e);
+            }
         });
 
     return {
@@ -91,10 +83,7 @@ const getWeatherByIpInner = (ipAddress) => {
 
             return axios.get(weatherUrl);
         }).then((response) => {
-            return createWeatherResponse(response, addressFromGoogle);
-            console.log(res);
-
-            return res;
+            return createWeatherResponse(response, addressFromGoogle,ipAddress);
         });
     });
 }
@@ -138,13 +127,20 @@ const getDarkskyUrl = (response) => {
     return weatherUrl;
 }
 
-const createWeatherResponse = (response, addressFromGoogle) => {
+
+
+const createWeatherResponse = (response, addressFromGoogle, ipAddress) => {
     const temperature = response.data.currently.temperature;
     const apparentTemperature = response.data.currently.apparentTemperature;
 
-    return {
+    var weatherReport = new WeatherReport({
         address: addressFromGoogle,
-        weather: `It's, currently ${temperature}°. It feels like ${apparentTemperature}°.`
-    };
+        ip : ipAddress,
+        feelsLike: apparentTemperature,
+        date: new Date().getTime(),
+        temperature
+    });
+
+    return weatherReport;
 }
 
