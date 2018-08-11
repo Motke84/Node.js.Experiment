@@ -84,7 +84,6 @@ const getWeather = (req, res, callback, display) => {
                     })
             }).
             catch(e => {
-
                 res.send({
                     result: {
                         error: e.message
@@ -101,7 +100,6 @@ const getWeather = (req, res, callback, display) => {
                     })
             }).
             catch(e => {
-
                 res.send({
                     result: {
                         error: e.message
