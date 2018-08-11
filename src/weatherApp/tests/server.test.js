@@ -27,9 +27,11 @@ describe('server-test', () => {
         .get('/getWeather?address=Martian 1112 Mars')
         .expect(200)
         .expect((res) => {
-          expect(res.body).toHaveProperty(['result', 'error'], {
-            error_message: weatherApi.error_messages.ZERO_RESULTS
-          });
+          expect(res.body).toHaveProperty(['result', 'error']);
+          
+          expect(res.body.result.error)
+          .toEqual(expect.stringContaining(weatherApi.error_messages.ZERO_RESULTS));
+
         })
         .end(done);
     }).timeout(3000);
@@ -41,13 +43,12 @@ describe('server-test', () => {
         .get(`/getWeather?address=${addressToCheck}`)
         .expect(200)
         .expect((res) => {
-
+          
           expect(res.body).toHaveProperty(['result', 'address']);
           expect(res.body.result.address)
             .toEqual(expect.stringContaining(addressToCheck));
 
           expect(res.body).toHaveProperty(['result', 'weather']);
-
         })
         .end(done);
     }).timeout(3000);

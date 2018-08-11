@@ -10,22 +10,29 @@ describe('weatherApi-tests', () => {
       .then(data => {
 
         expect(data).toHaveProperty('address');
-        expect(data).toHaveProperty('weather');
+        expect(data).toHaveProperty('ip');
+        expect(data).toHaveProperty('feelsLike');
+        expect(data).toHaveProperty('temperature');
+        done();
+      }).catch(e => {
 
         done();
       });
-  });
+  }).timeout(3000);
 
   it('should return object with error', (done) => {
 
     var res = weatherApi.getWeather("Martian 1112 Mars").payload
       .then(data => {
-        expect(data).toHaveProperty('error', {
-          error_message: weatherApi.error_messages.ZERO_RESULTS
-        });
 
         done();
-      })
+      }).catch(e => {
+
+        expect(e.message)
+          .toEqual(expect.stringContaining(weatherApi.error_messages.ZERO_RESULTS));
+
+        done();
+      });
   }).timeout(3000);
 
 });
