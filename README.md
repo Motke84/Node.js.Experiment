@@ -1,13 +1,17 @@
 # Node.js.Experiment
-
-
-
+ 
+ 
 This project is using: 
-Circle CI (https://circleci.com/) as it's continuous integration service.
-Heroku (https://id.heroku.com/) as it's deployment service.
-MongoDB (https://www.mongodb.com/) as database service
-Handlebars (https://handlebarsjs.com/) for UI.
+<ul>
 
+<li> Circle CI (https://circleci.com) as it's continuous integration service.</li>
+
+<li>Heroku (https://id.heroku.com) as it's deployment service.</li>
+
+<li>MongoDB (https://www.mongodb.com) as database service.</li>
+
+<li>Handlebars (https://handlebarsjs.com) for UI. </li>
+<ul>
 
 <p align="center">
   <img src="https://circleci.com/circleci-logo-stacked-fb.png" width="100" height="100" alt="accessibility text">
