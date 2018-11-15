@@ -5,11 +5,14 @@ const weatherApi = require('./weatherApi/weatherApi');
 const flowApi = require('./flowApi/flowApi');
 const requestIp = require('request-ip');
 const { WeatherReport } = require('./models/weatherReport.js');
+const cors = require('cors');
 
 var { mongoose } = require('../db/mongoose');
 
 const app = express();
 const port = process.env.PORT || 3000;
+app.use(cors({ origin: '*' }));
+
 app.set('views', __dirname + '/views');
 
 app.set('view engine', 'hbs');
