@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const hbs = require('hbs');
 const weatherApi = require('./weatherApi/weatherApi');
+const flowApi = require('./flowApi/flowApi');
 const requestIp = require('request-ip');
 const { WeatherReport } = require('./models/weatherReport.js');
 
@@ -40,6 +41,13 @@ app.get('/reports', (req, res) => {
 });
 
 
+app.get('/getFlow', (req, res) => {
+    flowApi.getFlow().then(doc => {
+        res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
 
 
 app.get('/getWeather', (req, res) => {
