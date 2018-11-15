@@ -1,0 +1,14 @@
+{
+    "nodes":
+        [
+            { "title": "Hello", "type": "event", "posX": 50, "posY": 100 },
+            { "title": "World", "type": "action", "posX": 350, "posY": 100 },
+            { "title": "!!!", "type": "action", "posX": 200, "posY": 300 }
+        ],
+    "connections":
+        [
+            { "source": "Hello", "destination": "World" },
+            { "source": "World", "destination": "!!!" },
+            { "source": "!!!", "destination": "Hello" }
+        ]
+}
