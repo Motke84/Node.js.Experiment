@@ -14,6 +14,18 @@ const getFlow = () => {
     });
 };
 
+const saveFlow = (flowItems) => {
+
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+
+            fs.writeFileSync('./src/weatherApp/flow.json', JSON.stringify(flowItems));
+            resolve(true);
+        }, 300);
+    });
+};
+
 module.exports = {
     getFlow,
+    saveFlow
 }
