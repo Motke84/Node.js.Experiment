@@ -6,10 +6,14 @@ const flowApi = require('./flowApi/flowApi');
 const requestIp = require('request-ip');
 const { WeatherReport } = require('./models/weatherReport.js');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 var { mongoose } = require('../db/mongoose');
 
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 const port = process.env.PORT || 3000;
 app.use(cors({ origin: '*' }));
 
@@ -43,6 +47,16 @@ app.get('/reports', (req, res) => {
     });
 });
 
+app.post('/saveFlow', (req, res) => {
+    var flowItems = req.body.params;
+   
+    console.log(flowItems);
+    flowApi.saveFlow(flowItems).then(doc => {
+        res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
 
 app.get('/getFlow', (req, res) => {
     flowApi.getFlow().then(doc => {
