@@ -1,14 +1,646 @@
 {
-    "nodes":
-        [
-            { "title": "Hello", "type": "event", "posX": 50, "posY": 100 },
-            { "title": "World", "type": "action", "posX": 350, "posY": 100 },
-            { "title": "!!!", "type": "action", "posX": 200, "posY": 300 }
-        ],
-    "connections":
-        [
-            { "source": "Hello", "destination": "World" },
-            { "source": "World", "destination": "!!!" },
-            { "source": "!!!", "destination": "Hello" }
-        ]
+    "nodes": [
+        {
+            "title": "EodSettlementsImportedForRepo",
+            "type": "event",
+            "posX": 0,
+            "posY": 150
+        },
+        {
+            "title": "GenerateRepoRiskFactors",
+            "type": "action",
+            "posX": 400,
+            "posY": 150
+        },
+        {
+            "title": "EodSettlementsImportedForStir",
+            "type": "event",
+            "posX": 0,
+            "posY": 800
+        },
+        {
+            "title": "GenerateStirFutureRiskFactors",
+            "type": "action",
+            "posX": 750,
+            "posY": 800
+        },
+        {
+            "title": "EodOtcFixingsImported",
+            "type": "event",
+            "posX": 0,
+            "posY": 900
+        },
+        {
+            "title": "ImportOtcFixingData",
+            "type": "action",
+            "posX": 400,
+            "posY": 900
+        },
+        {
+            "title": "EodOtcIrYieldImported",
+            "type": "event",
+            "posX": 0,
+            "posY": 600
+        },
+        {
+            "title": "ImportOtcRiskFactorData",
+            "type": "action",
+            "posX": 400,
+            "posY": 600
+        },
+        {
+            "title": "EodOtcIrOisImported",
+            "type": "event",
+            "posX": 0,
+            "posY": 700
+        },
+        {
+            "title": "StirFutureRfReadyForOptionsRf",
+            "type": "event",
+            "posX": 750,
+            "posY": 400
+        },
+        {
+            "title": "GenerateOptionsRiskFactors",
+            "type": "action",
+            "posX": 1100,
+            "posY": 300
+        },
+        {
+            "title": "BondImpliedYieldsReadyForBondOptionsRf",
+            "type": "event",
+            "posX": 750,
+            "posY": 300
+        },
+        {
+            "title": "BondYieldsCopiedForOptionsPnl",
+            "type": "event",
+            "posX": 1100,
+            "posY": 550
+        },
+        {
+            "title": "OtcFixingCopied",
+            "type": "event",
+            "posX": 2200,
+            "posY": 900
+        },
+        {
+            "title": "CalculateScalingTopDay",
+            "type": "action",
+            "posX": 2200,
+            "posY": 600
+        },
+        {
+            "title": "FxRfCopiedForEwma",
+            "type": "event",
+            "posX": 1450,
+            "posY": 50
+        },
+        {
+            "title": "CalculateEwmaTopDay",
+            "type": "action",
+            "posX": 1850,
+            "posY": 300
+        },
+        {
+            "title": "StirFutureRfReadyForEwma",
+            "type": "event",
+            "posX": 1450,
+            "posY": 800
+        },
+        {
+            "title": "OptionRfReadyForEwma",
+            "type": "event",
+            "posX": 1450,
+            "posY": 300
+        },
+        {
+            "title": "RepoFutureRfReadyForEwma",
+            "type": "event",
+            "posX": 1450,
+            "posY": 150
+        },
+        {
+            "title": "ImportFxRatesData",
+            "type": "action",
+            "posX": 400,
+            "posY": 50
+        },
+        {
+            "title": "BondYieldsRfCopiedForEwma",
+            "type": "event",
+            "posX": 1450,
+            "posY": 450
+        },
+        {
+            "title": "OtcRfCopiedForEwma",
+            "type": "event",
+            "posX": 1450,
+            "posY": 600
+        },
+        {
+            "title": "RfAndEwmaReadyForScaling",
+            "type": "event",
+            "posX": 2200,
+            "posY": 300
+        },
+        {
+            "title": "ScaledRfReadyForRepoFuturePnl",
+            "type": "event",
+            "posX": 2850,
+            "posY": 200
+        },
+        {
+            "title": "CalculateRepoFuturesPnL",
+            "type": "action",
+            "posX": 3250,
+            "posY": 200
+        },
+        {
+            "title": "ScaledRfReadyForBondFuturePnl",
+            "type": "event",
+            "posX": 2850,
+            "posY": 300
+        },
+        {
+            "title": "CalculateBondFuturesPnL",
+            "type": "action",
+            "posX": 3250,
+            "posY": 300
+        },
+        {
+            "title": "ScaledRfReadyForOptionsPnl",
+            "type": "event",
+            "posX": 2850,
+            "posY": 400
+        },
+        {
+            "title": "CalculateOptionsPnL",
+            "type": "action",
+            "posX": 3250,
+            "posY": 400
+        },
+        {
+            "title": "ScaledRfReadyForSwapnoteFuturePnl",
+            "type": "event",
+            "posX": 2850,
+            "posY": 500
+        },
+        {
+            "title": "CalculateSwapnotesPnL",
+            "type": "action",
+            "posX": 3250,
+            "posY": 500
+        },
+        {
+            "title": "ScaledRfReadyForStirFuturePnl",
+            "type": "event",
+            "posX": 2850,
+            "posY": 600
+        },
+        {
+            "title": "CalculateFuturesPnL",
+            "type": "action",
+            "posX": 3250,
+            "posY": 600
+        },
+        {
+            "title": "ScaledRfReadyForErisFuturePnl",
+            "type": "event",
+            "posX": 2850,
+            "posY": 700
+        },
+        {
+            "title": "CalculateErisFuturesPnL",
+            "type": "action",
+            "posX": 3250,
+            "posY": 700
+        },
+        {
+            "title": "ScaledRfReadyForEoniaFuturePnl",
+            "type": "event",
+            "posX": 2850,
+            "posY": 800
+        },
+        {
+            "title": "CalculateEoniaFuturesPnL",
+            "type": "action",
+            "posX": 3250,
+            "posY": 800
+        },
+        {
+            "title": "ScaledRfReadyForSoniaFuturePnl",
+            "type": "event",
+            "posX": 2850,
+            "posY": 900
+        },
+        {
+            "title": "CalculateSoniaFuturesPnL",
+            "type": "action",
+            "posX": 3250,
+            "posY": 900
+        },
+        {
+            "title": "RepoFuturePnlReadyForEodReport",
+            "type": "event",
+            "posX": 3700,
+            "posY": 200
+        },
+        {
+            "title": "GeneratePnLEodReport",
+            "type": "action",
+            "posX": 4550,
+            "posY": 500
+        },
+        {
+            "title": "BondFuturePnlReadyForEodReport",
+            "type": "event",
+            "posX": 3700,
+            "posY": 300
+        },
+        {
+            "title": "OptionsPnlReadyForEodReport",
+            "type": "event",
+            "posX": 3700,
+            "posY": 400
+        },
+        {
+            "title": "SwapnoteFuturePnlReadyForEodReport",
+            "type": "event",
+            "posX": 3700,
+            "posY": 500
+        },
+        {
+            "title": "StirFuturePnlReadyForEodReport",
+            "type": "event",
+            "posX": 3700,
+            "posY": 600
+        },
+        {
+            "title": "ErisFuturePnlReadyForEodReport",
+            "type": "event",
+            "posX": 3700,
+            "posY": 700
+        },
+        {
+            "title": "EoniaFuturePnlReadyForEodReport",
+            "type": "event",
+            "posX": 3700,
+            "posY": 800
+        },
+        {
+            "title": "SoniaFuturePnlReadyForEodReport",
+            "type": "event",
+            "posX": 3700,
+            "posY": 900
+        },
+        {
+            "title": "EodPnlFileReady",
+            "type": "event",
+            "posX": 4950,
+            "posY": 500
+        },
+        {
+            "title": "PublishEodActionMessage",
+            "type": "action",
+            "posX": 4950,
+            "posY": 650
+        },
+        {
+            "title": "ImportBondYieldData",
+            "type": "action",
+            "posX": 400,
+            "posY": 300
+        },
+        {
+            "title": "CalculateImpliedBondYield",
+            "type": "action",
+            "posX": 400,
+            "posY": 450
+        },
+        {
+            "title": "FxFixingsImported",
+            "type": "event",
+            "posX": 0,
+            "posY": 50
+        },
+        {
+            "title": "BondYieldsFixingsImported",
+            "type": "event",
+            "posX": 0,
+            "posY": 450
+        },
+        {
+            "title": "ScaledRfReadyForBondOptionsPnl",
+            "type": "event",
+            "posX": 2850,
+            "posY": 1000
+        },
+        {
+            "title": "EodSettlementsImportedForBond",
+            "type": "event",
+            "posX": 0,
+            "posY": 300
+        },
+        {
+            "title": "OtcRfCopiedForStir",
+            "type": "event",
+            "posX": 400,
+            "posY": 700
+        },
+        {
+            "title": "CalculateBondOptionsFuturesPnL",
+            "type": "action",
+            "posX": 3250,
+            "posY": 1000
+        },
+        {
+            "title": "BondOptionsPnlReadyForEodReport",
+            "type": "event",
+            "posX": 3700,
+            "posY": 1000
+        }
+    ],
+    "connections": [
+        {
+            "source": "EodSettlementsImportedForRepo",
+            "destination": "GenerateRepoRiskFactors"
+        },
+        {
+            "source": "EodSettlementsImportedForStir",
+            "destination": "GenerateStirFutureRiskFactors"
+        },
+        {
+            "source": "EodOtcFixingsImported",
+            "destination": "ImportOtcFixingData"
+        },
+        {
+            "source": "EodOtcIrYieldImported",
+            "destination": "ImportOtcRiskFactorData"
+        },
+        {
+            "source": "EodOtcIrOisImported",
+            "destination": "ImportOtcRiskFactorData"
+        },
+        {
+            "source": "StirFutureRfReadyForOptionsRf",
+            "destination": "GenerateOptionsRiskFactors"
+        },
+        {
+            "source": "BondImpliedYieldsReadyForBondOptionsRf",
+            "destination": "GenerateOptionsRiskFactors"
+        },
+        {
+            "source": "BondYieldsCopiedForOptionsPnl",
+            "destination": "GenerateOptionsRiskFactors"
+        },
+        {
+            "source": "OtcFixingCopied",
+            "destination": "CalculateScalingTopDay"
+        },
+        {
+            "source": "FxRfCopiedForEwma",
+            "destination": "CalculateEwmaTopDay"
+        },
+        {
+            "source": "StirFutureRfReadyForEwma",
+            "destination": "CalculateEwmaTopDay"
+        },
+        {
+            "source": "OptionRfReadyForEwma",
+            "destination": "CalculateEwmaTopDay"
+        },
+        {
+            "source": "RepoFutureRfReadyForEwma",
+            "destination": "CalculateEwmaTopDay"
+        },
+        {
+            "source": "ImportFxRatesData",
+            "destination": "FxRfCopiedForEwma"
+        },
+        {
+            "source": "BondYieldsRfCopiedForEwma",
+            "destination": "CalculateEwmaTopDay"
+        },
+        {
+            "source": "OtcRfCopiedForEwma",
+            "destination": "CalculateEwmaTopDay"
+        },
+        {
+            "source": "RfAndEwmaReadyForScaling",
+            "destination": "CalculateScalingTopDay"
+        },
+        {
+            "source": "ScaledRfReadyForRepoFuturePnl",
+            "destination": "CalculateRepoFuturesPnL"
+        },
+        {
+            "source": "ScaledRfReadyForBondFuturePnl",
+            "destination": "CalculateBondFuturesPnL"
+        },
+        {
+            "source": "ScaledRfReadyForOptionsPnl",
+            "destination": "CalculateOptionsPnL"
+        },
+        {
+            "source": "ScaledRfReadyForSwapnoteFuturePnl",
+            "destination": "CalculateSwapnotesPnL"
+        },
+        {
+            "source": "ScaledRfReadyForStirFuturePnl",
+            "destination": "CalculateFuturesPnL"
+        },
+        {
+            "source": "ScaledRfReadyForErisFuturePnl",
+            "destination": "CalculateErisFuturesPnL"
+        },
+        {
+            "source": "ScaledRfReadyForEoniaFuturePnl",
+            "destination": "CalculateEoniaFuturesPnL"
+        },
+        {
+            "source": "ScaledRfReadyForSoniaFuturePnl",
+            "destination": "CalculateSoniaFuturesPnL"
+        },
+        {
+            "source": "RepoFuturePnlReadyForEodReport",
+            "destination": "GeneratePnLEodReport"
+        },
+        {
+            "source": "BondFuturePnlReadyForEodReport",
+            "destination": "GeneratePnLEodReport"
+        },
+        {
+            "source": "OptionsPnlReadyForEodReport",
+            "destination": "GeneratePnLEodReport"
+        },
+        {
+            "source": "SwapnoteFuturePnlReadyForEodReport",
+            "destination": "GeneratePnLEodReport"
+        },
+        {
+            "source": "StirFuturePnlReadyForEodReport",
+            "destination": "GeneratePnLEodReport"
+        },
+        {
+            "source": "ErisFuturePnlReadyForEodReport",
+            "destination": "GeneratePnLEodReport"
+        },
+        {
+            "source": "EoniaFuturePnlReadyForEodReport",
+            "destination": "GeneratePnLEodReport"
+        },
+        {
+            "source": "SoniaFuturePnlReadyForEodReport",
+            "destination": "GeneratePnLEodReport"
+        },
+        {
+            "source": "EodPnlFileReady",
+            "destination": "PublishEodActionMessage"
+        },
+        {
+            "source": "CalculateScalingTopDay",
+            "destination": "ScaledRfReadyForRepoFuturePnl"
+        },
+        {
+            "source": "CalculateScalingTopDay",
+            "destination": "ScaledRfReadyForBondFuturePnl"
+        },
+        {
+            "source": "GenerateStirFutureRiskFactors",
+            "destination": "StirFutureRfReadyForOptionsRf"
+        },
+        {
+            "source": "GenerateRepoRiskFactors",
+            "destination": "RepoFutureRfReadyForEwma"
+        },
+        {
+            "source": "ImportBondYieldData",
+            "destination": "BondImpliedYieldsReadyForBondOptionsRf"
+        },
+        {
+            "source": "CalculateImpliedBondYield",
+            "destination": "BondYieldsCopiedForOptionsPnl"
+        },
+        {
+            "source": "ImportOtcFixingData",
+            "destination": "OtcFixingCopied"
+        },
+        {
+            "source": "ImportOtcRiskFactorData",
+            "destination": "OtcRfCopiedForEwma"
+        },
+        {
+            "source": "GenerateOptionsRiskFactors",
+            "destination": "OptionRfReadyForEwma"
+        },
+        {
+            "source": "CalculateEwmaTopDay",
+            "destination": "RfAndEwmaReadyForScaling"
+        },
+        {
+            "source": "CalculateScalingTopDay",
+            "destination": "ScaledRfReadyForOptionsPnl"
+        },
+        {
+            "source": "CalculateScalingTopDay",
+            "destination": "ScaledRfReadyForSwapnoteFuturePnl"
+        },
+        {
+            "source": "CalculateScalingTopDay",
+            "destination": "ScaledRfReadyForStirFuturePnl"
+        },
+        {
+            "source": "CalculateScalingTopDay",
+            "destination": "ScaledRfReadyForErisFuturePnl"
+        },
+        {
+            "source": "CalculateScalingTopDay",
+            "destination": "ScaledRfReadyForEoniaFuturePnl"
+        },
+        {
+            "source": "CalculateScalingTopDay",
+            "destination": "ScaledRfReadyForSoniaFuturePnl"
+        },
+        {
+            "source": "FxFixingsImported",
+            "destination": "ImportFxRatesData"
+        },
+        {
+            "source": "BondYieldsFixingsImported",
+            "destination": "CalculateImpliedBondYield"
+        },
+        {
+            "source": "CalculateRepoFuturesPnL",
+            "destination": "RepoFuturePnlReadyForEodReport"
+        },
+        {
+            "source": "CalculateBondFuturesPnL",
+            "destination": "BondFuturePnlReadyForEodReport"
+        },
+        {
+            "source": "CalculateOptionsPnL",
+            "destination": "OptionsPnlReadyForEodReport"
+        },
+        {
+            "source": "CalculateSwapnotesPnL",
+            "destination": "SwapnoteFuturePnlReadyForEodReport"
+        },
+        {
+            "source": "CalculateFuturesPnL",
+            "destination": "StirFuturePnlReadyForEodReport"
+        },
+        {
+            "source": "CalculateErisFuturesPnL",
+            "destination": "ErisFuturePnlReadyForEodReport"
+        },
+        {
+            "source": "CalculateEoniaFuturesPnL",
+            "destination": "EoniaFuturePnlReadyForEodReport"
+        },
+        {
+            "source": "CalculateSoniaFuturesPnL",
+            "destination": "SoniaFuturePnlReadyForEodReport"
+        },
+        {
+            "source": "GeneratePnLEodReport",
+            "destination": "EodPnlFileReady"
+        },
+        {
+            "source": "GenerateStirFutureRiskFactors",
+            "destination": "StirFutureRfReadyForEwma"
+        },
+        {
+            "source": "CalculateImpliedBondYield",
+            "destination": "BondYieldsRfCopiedForEwma"
+        },
+        {
+            "source": "CalculateScalingTopDay",
+            "destination": "ScaledRfReadyForBondOptionsPnl"
+        },
+        {
+            "source": "EodSettlementsImportedForBond",
+            "destination": "ImportBondYieldData"
+        },
+        {
+            "source": "OtcRfCopiedForStir",
+            "destination": "GenerateStirFutureRiskFactors"
+        },
+        {
+            "source": "ImportOtcRiskFactorData",
+            "destination": "OtcRfCopiedForStir"
+        },
+        {
+            "source": "ScaledRfReadyForBondOptionsPnl",
+            "destination": "CalculateBondOptionsFuturesPnL"
+        },
+        {
+            "source": "CalculateBondOptionsFuturesPnL",
+            "destination": "BondOptionsPnlReadyForEodReport"
+        },
+        {
+            "source": "BondOptionsPnlReadyForEodReport",
+            "destination": "GeneratePnLEodReport"
+        }
+    ]
 }
