@@ -89,6 +89,34 @@ app.get('/PageNotFound', (req, res) => {
     });
 });
 
+
+app.get('/getWeatherAsync', (req, res) => {
+    const ip = req.userIp;
+    const address = req.query.address;
+    address ?
+        weatherApi.getWeatherAsync(address).then(doc => {
+            const result = createWeatherResponse(doc.payload);
+            res.send(result);
+        }, (e) => {
+            res.status(400).send({
+                result: {
+                    error: e.message
+                }
+            });
+        }) : 
+        weatherApi.getWethersByIpAsync(ip).then(doc => {
+            const result = createWeatherResponse(doc.payload);
+            res.send(result);
+        }, (e) => {
+            res.status(400).send({
+                result: {
+                    error: e.message
+                }
+            });
+        });
+
+});
+
 app.listen(port, () => {
     console.log('Server is up on port: ' + port);
 });
