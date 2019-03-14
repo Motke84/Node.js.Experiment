@@ -88,11 +88,99 @@ const getWeatherByIpInner = (ipAddress) => {
     });
 }
 
+const getWeatherAsync = async (address) => {
+
+    try {
+        const url = geGoogleapisUrl(address);
+
+        const googleapisRes = await axios.get(url)
+
+
+        if (googleapisRes.data.status === 'ZERO_RESULTS') {
+            throw new Error(error_messages.ZERO_RESULTS);
+        }
+
+        const weatherUrl = getDarkskyUrl(googleapisRes);
+
+        const addressFromGoogle = googleapisRes.data.results[0].formatted_address;
+
+        const weatherResult = await axios.get(weatherUrl);
+
+        const result = createWeatherResponse(weatherResult, addressFromGoogle, null);
+
+        return {
+            type: getWeatherAsync,
+            payload: result
+        };
+    }
+    catch (e) {
+
+        if (e.code === 'ENOTFOUND') {
+            throw new Error(error_messages.ENOTFOUND);
+        } else {
+            throw new Error(e);
+        }
+
+    }
+};
+
+
+const getWethersByIpAsync = async (ip) => {
+
+    try {
+        let ipFix = ip;
+
+        if (!net.isIPv4(ip)) {
+            const ipUrl = `https://api.ipify.org/?format=json`;
+            const ipFromServers = await axios.get(ipUrl);
+
+            ipFix = ipFromServers.data.ip;
+        }
+
+        result = await getWeatherByIpInnerAsync(ipFix)
+
+        return {
+            type: getWethersByIpAsync,
+            payload: result
+        };
+    }
+    catch (e) {
+
+        if (e.code === 'ENOTFOUND') {
+            throw new Error(error_messages.ENOTFOUND);
+        } else {
+            throw new Error(e);
+        }
+
+    }
+}
+
+
+const getWeatherByIpInnerAsync = async (ipAddress) => {
+
+    const ipUrl = getIpstackUrl(ipAddress);
+
+    const ipStack = await axios.get(ipUrl);
+
+    const googleUrl = getGoogleapisUrlByCoordinates(ipStack);
+
+    const coordinates = await axios.get(googleUrl);
+
+    const weatherUrl = getDarkskyUrl(coordinates);
+
+    const addressFromGoogle = response.data.results[0].formatted_address;
+
+    const weather = await axios.get(weatherUrl);
+
+    return createWeatherResponse(weather, addressFromGoogle, ipAddress);
+}
 
 module.exports = {
     getWeather,
     getWethersByIp,
-    error_messages
+    error_messages,
+    getWeatherAsync,
+    getWethersByIpAsync
 }
 
 const getGoogleapisUrlByCoordinates = (response) => {
